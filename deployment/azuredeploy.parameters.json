@@ -1,0 +1,74 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccountName": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/8fa12e69-8127-43ed-95d2-2f88dc548c06/resourceGroups/StillerBlogDeployment/providers/Microsoft.KeyVault/vaults/StillerBlogDeployment"
+                },
+                "secretName": "storageAccountName"
+            }
+        },
+        "mysqlServerName": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/8fa12e69-8127-43ed-95d2-2f88dc548c06/resourceGroups/StillerBlogDeployment/providers/Microsoft.KeyVault/vaults/StillerBlogDeployment"
+                },
+                "secretName": "mysqlServerName"
+            }        },
+        "mysqlAdministratorLogin": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/8fa12e69-8127-43ed-95d2-2f88dc548c06/resourceGroups/StillerBlogDeployment/providers/Microsoft.KeyVault/vaults/StillerBlogDeployment"
+                },
+                "secretName": "mysqlAdministratorLogin"
+            }
+        },
+        "mysqlAdministratorLoginPassword": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/8fa12e69-8127-43ed-95d2-2f88dc548c06/resourceGroups/StillerBlogDeployment/providers/Microsoft.KeyVault/vaults/StillerBlogDeployment"
+                },
+                "secretName": "mysqlAdministratorLoginPassword"
+            }
+        },
+        "wordpressMachineName": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/8fa12e69-8127-43ed-95d2-2f88dc548c06/resourceGroups/StillerBlogDeployment/providers/Microsoft.KeyVault/vaults/StillerBlogDeployment"
+                },
+                "secretName": "wordpressMachineName"
+            }        },
+        "wordpressAdminUsername": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/8fa12e69-8127-43ed-95d2-2f88dc548c06/resourceGroups/StillerBlogDeployment/providers/Microsoft.KeyVault/vaults/StillerBlogDeployment"
+                },
+                "secretName": "wordpressAdminUsername"
+            }
+        },
+        "wordpressAdminPassword": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/8fa12e69-8127-43ed-95d2-2f88dc548c06/resourceGroups/StillerBlogDeployment/providers/Microsoft.KeyVault/vaults/StillerBlogDeployment"
+                },
+                "secretName": "wordpressAdminPassword"
+            }
+        },
+        "wordpressVirtualMachineSize": {
+            "value": "Standard_D2s_v3"
+        },
+        "virtualNetworkName": {
+            "value": "StillerBlog-vnet"
+        },
+        "wordpressPublicDnsPrefix": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/8fa12e69-8127-43ed-95d2-2f88dc548c06/resourceGroups/StillerBlogDeployment/providers/Microsoft.KeyVault/vaults/StillerBlogDeployment"
+                },
+                "secretName": "wordpressPublicDnsPrefix"
+            }
+        }
+    }
+}
