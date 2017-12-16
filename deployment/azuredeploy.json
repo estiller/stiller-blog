@@ -31,6 +31,12 @@
         },
         "wordpressPublicDnsPrefix": {
             "type": "string"
+        },
+        "dockerVolumeInstallScriptUri": {
+            "type": "string"
+        },
+        "dockerComposeFileUri": {
+            "type": "string"
         }
     },
     "variables": {
@@ -151,36 +157,40 @@
             "apiVersion": "2017-03-30",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', parameters('wordpressMachineName'))]",
-                "[concat('Microsoft.DBforMySQL/servers/', parameters('mysqlServerName'))]"
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('wordpressMachineName'))]"
             ],
             "properties": {
                 "publisher": "Microsoft.Azure.Extensions",
                 "type": "DockerExtension",
                 "typeHandlerVersion": "1.2",
                 "autoUpgradeMinorVersion": true,
+                "settings": {}
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('wordpressMachineName'),'/CustomScript')]",
+            "apiVersion": "2017-03-30",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('wordpressMachineName'))]",
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('wordpressMachineName'), '/extensions/DockerExtension')]",
+                "[concat('Microsoft.DBforMySQL/servers/', parameters('mysqlServerName'))]",
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Azure.Extensions",
+                "type": "CustomScript",
+                "typeHandlerVersion": "2.0",
+                "autoUpgradeMinorVersion": true,
                 "protectedSettings": {
-                    "environment": {
-                        "WORDPRESS_DB_HOST": "[variables('wordpressDbHostname')]",
-                        "WORDPRESS_DB_USER": "[concat(parameters('mysqlAdministratorLogin'), '@', variables('wordpressDbHostname'))]",
-                        "WORDPRESS_DB_PASSWORD": "[parameters('mysqlAdministratorLoginPassword')]"
-                    }
+                    "commandToExecute": "[concat('./install-azurefile-dockervolumedriver.sh ', parameters('storageAccountName'), ' ', listkeys(parameters('storageAccountName'), '2017-10-01').keys[0].value, ' && export WORDPRESS_DB_HOST=\"', variables('wordpressDbHostname'), '\" && export WORDPRESS_DB_USER=\"', parameters('mysqlAdministratorLogin'), '@', variables('wordpressDbHostname'), '\" && export WORDPRESS_DB_PASSWORD=\"', parameters('mysqlAdministratorLoginPassword'), '\" && docker-compose -p wordpress up -d')]"
                 },
                 "settings": {
-                    "compose": {
-                        "wordpress": {
-                            "image": "wordpress:latest",
-                            "ports": [
-                                "80:80"
-                            ],
-                            "environment": [
-                                "WORDPRESS_DB_HOST",
-                                "WORDPRESS_DB_USER",
-                                "WORDPRESS_DB_PASSWORD"
-                            ],
-                            "restart": "always"
-                        }
-                    }
+                    "fileUris": [
+                        "[parameters('dockerVolumeInstallScriptUri')]",
+                        "[parameters('dockerComposeFileUri')]"
+                    ]
                 }
             }
         },
