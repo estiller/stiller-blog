@@ -3,8 +3,6 @@ version: "2"
 services:
   wordpress:
     image: wordpress:latest
-    ports:
-      - 80:80
     environment: 
       - WORDPRESS_DB_HOST
       - WORDPRESS_DB_USER
@@ -12,6 +10,13 @@ services:
     restart: always
     volumes:
       - www-volume:/var/www/html
+
+  haproxy:
+    image: stiller/haproxy:selfsigned
+    ports: 
+      - 80:80
+      - 443:443
+    restart: always
 
 volumes: 
   www-volume:

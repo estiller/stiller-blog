@@ -4,8 +4,8 @@ chmod +x /usr/bin/azurefile-dockervolumedriver
 
 # Service configuration
 wget -qO/etc/default/azurefile-dockervolumedriver https://raw.githubusercontent.com/Azure/azurefile-dockervolumedriver/master/contrib/init/systemd/azurefile-dockervolumedriver.default
-sed -i "s/youraccount/$1/g" /etc/default/azurefile-dockervolumedriver
-sed -i "s/yourkey/$2/g" /etc/default/azurefile-dockervolumedriver
+sed -i "s:youraccount:$1:g" /etc/default/azurefile-dockervolumedriver
+sed -i "s:yourkey:$2:g" /etc/default/azurefile-dockervolumedriver
 
 # Service file
 wget -qO/etc/systemd/system/azurefile-dockervolumedriver.service https://raw.githubusercontent.com/Azure/azurefile-dockervolumedriver/master/contrib/init/systemd/azurefile-dockervolumedriver.service
