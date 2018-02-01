@@ -12,7 +12,7 @@ services:
       - www-volume:/var/www/html
 
   haproxy:
-    image: stiller/haproxy:selfsigned
+    image: stiller/haproxy:letsencrypt
     ports: 
       - 80:80
       - 443:443

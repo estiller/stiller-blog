@@ -1,0 +1,13 @@
+FROM haproxy:1.8
+
+RUN echo 'deb http://ftp.debian.org/debian stretch-backports main' >> /etc/apt/sources.list.d/sources.list
+
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends certbot -t stretch-backports \
+	&& rm -rf /var/lib/apt/lists/*
+
+COPY docker-entrypoint-custom.sh /
+COPY haproxy.cfg /usr/local/etc/haproxy/
+
+ENTRYPOINT ["/docker-entrypoint-custom.sh"]
+CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
