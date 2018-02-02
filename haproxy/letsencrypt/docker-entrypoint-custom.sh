@@ -4,6 +4,8 @@
 certbot certonly --standalone --preferred-challenges http --http-01-port 80 -d stiller.blog -d www.stiller.blog -d stiller.co.il -d www.stiller.co.il -n --agree-tos --email git@stiller.co.il
 cat /etc/letsencrypt/live/stiller.blog/fullchain.pem /etc/letsencrypt/live/stiller.blog/privkey.pem > /etc/ssl/private/stiller.blog.pem
 chmod -R go-rwx /etc/ssl/private
+cp /etc/ssl/private/stiller.blog.pem /etc/ssl/certstore/stiller.blog.pem
+chmod -R go-rwx /etc/ssl/certstore
 
 # change certbot to use another port when running behind HAProxy
 sed -i 's/http01_port = 80/http01_port = 54321/g' /etc/letsencrypt/renewal/stiller.blog.conf

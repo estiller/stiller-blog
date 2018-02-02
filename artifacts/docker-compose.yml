@@ -17,9 +17,15 @@ services:
       - 80:80
       - 443:443
     restart: always
+    volumes:
+      - cert-volume:/etc/ssl/certstore
 
 volumes: 
   www-volume:
     driver: azurefile
     driver_opts:
       share: wordpress
+  cert-volume:
+    driver: azurefile
+    driver_opts:
+      share: certstore
