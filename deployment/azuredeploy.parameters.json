@@ -57,7 +57,7 @@
             }
         },
         "wordpressVirtualMachineSize": {
-            "value": "Standard_D2s_v3"
+            "value": "Standard_B1MS"
         },
         "virtualNetworkName": {
             "value": "StillerBlog-vnet"
